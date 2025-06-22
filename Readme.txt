@@ -13,3 +13,15 @@ docker run -it -p 1880:1880 -v ~/node-red-data:/data --name node-red my-node-red
 docker rm -f node-red  # 停止並移除原容器
 
 docker run -it -p 1880:1880 -v ~/node-red-data:/data --name node-red my-node-red
+
+
+主要目的：
+
+1. 測試 Node-Red 與 Line Message API 建立連線方式
+
+
+需求：
+
+1. 註冊並創建 LINE Official Account
+2. 註冊並創建 LINE Developers Account
+3. 開啟 http://webhook.site/ 準備接收 user id 或 group id 工具
