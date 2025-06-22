@@ -1,0 +1,308 @@
+[
+    {
+        "id": "204891a7f081f671",
+        "type": "tab",
+        "label": "流程3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "40e0903ccce30359",
+        "type": "function",
+        "z": "204891a7f081f671",
+        "name": "傳送信息",
+        "func": "var CHANNEL_ACCESS_TOKEN = msg.line_token;\nvar USER_ID = msg.user_id;\nvar GROUP_ID = msg.group_id;\nvar MESSAGE_BUILD = msg.message_build;\n\nvar headers = {\n    'Content-Type': 'application/json; charset=UTF-8',\n    'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,\n};\nvar payload = {\n    'to':  [USER_ID,GROUP_ID],\n    'messages':  MESSAGE_BUILD\n};\nmsg.headers = headers;\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 440,
+        "wires": [
+            [
+                "9d325c1f87e82919",
+                "f6305f6cbf34bb8f"
+            ]
+        ]
+    },
+    {
+        "id": "f6305f6cbf34bb8f",
+        "type": "http request",
+        "z": "204891a7f081f671",
+        "name": "Messaging API 傳送",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.line.me/v2/bot/message/push",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1020,
+        "y": 480,
+        "wires": [
+            [
+                "17a02a69c730efe0"
+            ]
+        ]
+    },
+    {
+        "id": "8f2267fe8d7502d0",
+        "type": "inject",
+        "z": "204891a7f081f671",
+        "name": "",
+        "props": [
+            {
+                "p": "timestampget",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 250,
+        "y": 120,
+        "wires": [
+            [
+                "6f6a03916cdcf035"
+            ]
+        ],
+        "info": "var line_token = ;\r\n"
+    },
+    {
+        "id": "17a02a69c730efe0",
+        "type": "debug",
+        "z": "204891a7f081f671",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1298,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "6babe2fa8ad7cab8",
+        "type": "template",
+        "z": "204891a7f081f671",
+        "name": "訊息",
+        "field": "message_build",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "[\n  {\n    \"type\": \"text\",\n    \"text\": \"我是node-red機器人\\n更新時間：{{{timestamp_str}}}\"\n  },\n  {\n    \"type\": \"text\",\n    \"text\": \"我是node-red機器人\\n更新時間：{{{timestamp_str}}}\"\n  }\n]\n",
+        "output": "json",
+        "x": 530,
+        "y": 420,
+        "wires": [
+            [
+                "40e0903ccce30359",
+                "145071512b3791b9"
+            ]
+        ]
+    },
+    {
+        "id": "145071512b3791b9",
+        "type": "debug",
+        "z": "204891a7f081f671",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "ba085177eb165ab9",
+        "type": "template",
+        "z": "204891a7f081f671",
+        "name": "Developer user ID",
+        "field": "user_id",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "Ub8eb1327d5199eba9fe3bf91551ada96",
+        "output": "str",
+        "x": 930,
+        "y": 180,
+        "wires": [
+            [
+                "6babe2fa8ad7cab8"
+            ]
+        ]
+    },
+    {
+        "id": "8e855213dc4d25b8",
+        "type": "template",
+        "z": "204891a7f081f671",
+        "name": "LINE_MESSAGE_API_Token",
+        "field": "line_token",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "GeC8crWVEftCxUbh8zGLEhaZfc1o1uVy7S+cTtc+oiZBIPa4dALwNWB+bKGq2g+5tysOZNtnGf839Xzi4PU3DxOVCFkGL/66Du8c6fp9O32APE6EUSLfCdRDXrNeVdytJFXjy6Jd/H9tvfEWXttooAdB04t89/1O/w1cDnyilFU=",
+        "output": "str",
+        "x": 550,
+        "y": 140,
+        "wires": [
+            [
+                "d9d48b7b9b6f8b1d"
+            ]
+        ]
+    },
+    {
+        "id": "9d325c1f87e82919",
+        "type": "debug",
+        "z": "204891a7f081f671",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "6f6a03916cdcf035",
+        "type": "function",
+        "z": "204891a7f081f671",
+        "name": "格式化時間",
+        "func": "var date = new Date(msg.timestampget);\nvar yyyy = date.getFullYear();\nvar mm = (\"0\" + (date.getMonth() + 1)).slice(-2);\nvar dd = (\"0\" + date.getDate()).slice(-2);\nvar hh = (\"0\" + date.getHours()).slice(-2);\nvar mi = (\"0\" + date.getMinutes()).slice(-2);\nvar ss = (\"0\" + date.getSeconds()).slice(-2);\n\n// 格式：2025/06/21 09:30:45\nmsg.timestamp_str = yyyy + \"/\" + mm + \"/\" + dd + \" \" + hh + \":\" + mi + \":\" + ss;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 240,
+        "wires": [
+            [
+                "8e855213dc4d25b8",
+                "f01ea23afdcf0629",
+                "c943ff8cbe0dfa2b"
+            ]
+        ]
+    },
+    {
+        "id": "f01ea23afdcf0629",
+        "type": "debug",
+        "z": "204891a7f081f671",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "timestamp_str",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 300,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "c943ff8cbe0dfa2b",
+        "type": "debug",
+        "z": "204891a7f081f671",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "timestampget",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "a349f3f04146dbeb",
+        "type": "http request",
+        "z": "204891a7f081f671",
+        "name": "Messaging API 傳送",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.line.me/v2/bot/message/multicast",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1040,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "615bd3a62f3bbff0",
+        "type": "template",
+        "z": "204891a7f081f671",
+        "name": "Developer user ID",
+        "field": "user_id",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "Ubac998f5c1ac417967a0ef0298ca22a5",
+        "output": "str",
+        "x": 930,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d9d48b7b9b6f8b1d",
+        "type": "template",
+        "z": "204891a7f081f671",
+        "name": "Developer group ID",
+        "field": "group_id",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "C61f13d7cf09ac50ffdd263df8fb9e697",
+        "output": "str",
+        "x": 930,
+        "y": 40,
+        "wires": [
+            [
+                "ba085177eb165ab9"
+            ]
+        ]
+    }
+]
